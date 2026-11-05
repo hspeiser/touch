@@ -48,13 +48,17 @@ data per update than ManiSkill's 512-env GPU baseline.
 | fixed | 1 | 0.20 | 0.00 |
 | fixed | 2 | 0.13 | 0.00 |
 | fixed | 3 | 0.14 | 0.00 |
+| buggy | 11 (10 envs, 10M steps, 72 min) | 0.27 | 0.00 |
+| fixed | 11 (10 envs, 10M steps, 74 min) | 0.30 | 0.00 |
 
 No policy lifted the cube. All of them are simply undertrained. The original report used
 DrQ-v2 with visual observations, and the lifting behaviour did not appear with state-based PPO
 at this budget. Both seed-1 checkpoints fail the deployment gate on success rate, so the gated
 check exits 2 at both commits once the policy case is included (`runs/demo_transcript.txt`).
-Two 10M-step runs (seed 11, 10 envs) were started on both commits but had not finished when
-this was written, so they are not reported here.
+The two 10M-step runs (last two rows) did not change the picture: five times the data, success
+still under 0.3 at both commits, cube never lifted (`runs/train/*seed11_long.log`). Those
+checkpoints were not re-run through the TouchStone gate; at 0.27 and 0.30 they would fail the
+0.5 success threshold the same way the seed-1 ones did.
 
 Videos of the seed-1 policies are in `media/buggy_seed1/` and `media/fixed_seed1/`.
 
