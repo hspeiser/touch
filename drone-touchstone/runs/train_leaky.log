@@ -1,0 +1,17 @@
+reward=leaky device=cpu (cpu)
+/home/henry/drone-touchstone/.venv/lib/python3.12/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 1600, but because the `RolloutBuffer` is of size `n_steps * n_envs = 4000`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 800
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=400 and n_envs=10)
+  warnings.warn(
+trained 3,000,000 steps in 454s
+saved policies/ppo_leaky.zip
+
+ground-truth behaviour of the trained policy (20 episodes):
+  mean return              2152.14
+  mean arrival_bonus       1856.00
+  mean steps_at_goal          1.00
+  mean min_dist_to_goal       1.19
+  crashed            4/20
+  on ground at end   19/20
+  reached goal       1/20
+  example final pos  [-0.036, 0.058, 0.0]

@@ -1,0 +1,223 @@
+{
+  "suite": {
+    "schema_version": 1,
+    "name": "ManiSkill PushCube-v1 reward regression tests",
+    "adapter": "adapter.py",
+    "requirements": [
+      {
+        "id": "reward-agrees-with-success",
+        "text": "PushCube success requires the cube within goal_radius of the target AND still on the table. The dense reward must agree: with the gripper at the push pose and the cube over the goal, holding the cube higher above the table must earn strictly less reward."
+      },
+      {
+        "id": "success-is-on-table",
+        "text": "The success condition itself: a cube inside the goal radius on the table is success; the same cube lifted above the table is not."
+      },
+      {
+        "id": "candidate-policy-pushes",
+        "text": "A policy proposed for deployment must actually push the cube into the goal on the table, not hold it above the goal."
+      }
+    ],
+    "cases": [
+      {
+        "id": "lifting-cube-over-goal-loses-reward",
+        "title": "Reward decreases as the cube is held higher over the goal (push pose reached)",
+        "requirement_id": "reward-agrees-with-success",
+        "input": {
+          "scenario": "height_gradient",
+          "z_low": 0.035,
+          "z_high": 0.15
+        },
+        "assertions": [
+          {
+            "path": "low.tcp_to_push_pose",
+            "operator": "lte",
+            "expected": 0.01
+          },
+          {
+            "path": "high.tcp_to_push_pose",
+            "operator": "lte",
+            "expected": 0.01
+          },
+          {
+            "path": "low.success",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "high.success",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "reward_depends_on_cube_height",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "reward_gap_low_minus_high",
+            "operator": "gte",
+            "expected": 0.05
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Written from the PushCube docstring success condition; see ManiSkill issue #1016"
+        },
+        "case_sha256": "45469457478deba4cddb758b117be8c5fce6b5df964be3fd2807f0490945d184",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "45469457478deba4cddb758b117be8c5fce6b5df964be3fd2807f0490945d184",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:18.848325+00:00"
+        }
+      },
+      {
+        "id": "cube-on-table-in-goal-is-success",
+        "title": "Cube resting on the table inside the goal is success with maximum reward",
+        "requirement_id": "success-is-on-table",
+        "input": {
+          "scenario": "on_table_success"
+        },
+        "assertions": [
+          {
+            "path": "success",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "reward",
+            "operator": "gte",
+            "expected": 0.99
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Written from the PushCube docstring success condition"
+        },
+        "case_sha256": "24d849537a9d978fbe344db74a480718fa4b1a01d43be4ff13345b08ed362801",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "24d849537a9d978fbe344db74a480718fa4b1a01d43be4ff13345b08ed362801",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:19.001143+00:00"
+        }
+      },
+      {
+        "id": "cube-lifted-over-goal-is-not-success",
+        "title": "Cube held 12 cm above the goal is not success",
+        "requirement_id": "success-is-on-table",
+        "input": {
+          "scenario": "lifted_not_success",
+          "z": 0.12
+        },
+        "assertions": [
+          {
+            "path": "success",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "reward",
+            "operator": "lte",
+            "expected": 0.99
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Written from the PushCube docstring success condition"
+        },
+        "case_sha256": "751fdfd968dc49988388fac97a9d1346bf085556c06cf5920731a5cdf81548c8",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "751fdfd968dc49988388fac97a9d1346bf085556c06cf5920731a5cdf81548c8",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:19.135710+00:00"
+        }
+      },
+      {
+        "id": "candidate-policy-pushes-cube-on-table",
+        "title": "The candidate PPO checkpoint pushes the cube into the goal on the table",
+        "requirement_id": "candidate-policy-pushes",
+        "input": {
+          "scenario": "policy",
+          "checkpoint": "candidate.zip",
+          "episodes": 64,
+          "seed": 0
+        },
+        "assertions": [
+          {
+            "path": "success_rate_at_end",
+            "operator": "gte",
+            "expected": 0.5
+          },
+          {
+            "path": "frac_over_goal_but_lifted",
+            "operator": "lte",
+            "expected": 0.1
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored deployment gate"
+        },
+        "case_sha256": "4f262df944dbbe4d404abe81721fd1cc83a396bd396d07e81e2f8a1f252f436e",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "4f262df944dbbe4d404abe81721fd1cc83a396bd396d07e81e2f8a1f252f436e",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:19.267541+00:00"
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "440ebe36-b83b-4bf5-a43c-73e747d56177",
+      "created_at": "2026-11-05T21:59:21.733299+00:00",
+      "disposition": "inconclusive",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": "No pending cases to explore."
+    },
+    {
+      "id": "f3e2cbbc-f6f5-4aba-ba0d-e2aa3bde9b4d",
+      "created_at": "2026-11-05T21:15:40.250354+00:00",
+      "disposition": "inconclusive",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": null
+    },
+    {
+      "id": "64e9489e-38fc-419b-a319-09ddee58ba93",
+      "created_at": "2026-11-05T21:15:19.404880+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": null
+    },
+    {
+      "id": "743b87fe-b8ca-4451-a775-74c9903fc3f9",
+      "created_at": "2026-11-05T21:14:54.532675+00:00",
+      "disposition": "fail",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "b3f44522ac3974bdc168ab4cae4c61170cb7c7fbe6e5edd2f34875316938a815",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": null
+    }
+  ]
+}

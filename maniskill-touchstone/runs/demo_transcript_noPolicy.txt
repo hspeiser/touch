@@ -1,0 +1,97 @@
+
+== 1. Explore pending cases against the BUGGY commit
+run 743b87fe  disposition=fail  state=completed  gating=False  error=None
+
+[FAIL        ] lifting-cube-over-goal-loses-reward  — Reward decreases as the cube is held higher over the goal (push pose reached)
+    obs: {"low": {"success": false, "reward": 0.6667, "cube_z": 0.0317, "tcp_to_push_pose": 0.0}, "high": {"success": false, "reward": 0.6667, "cube_z": 0.148, "tcp_to_push_pose": 0.0}, "reward_gap_low_minus_high": 0.0, "reward_depends_on_cube_height": false}
+    ok   low.tcp_to_push_pose lte 0.01   actual=0.0
+    ok   high.tcp_to_push_pose lte 0.01   actual=0.0
+    ok   low.success eq False   actual=False
+    ok   high.success eq False   actual=False
+    FAIL reward_depends_on_cube_height eq True   actual=False
+    FAIL reward_gap_low_minus_high gte 0.05   actual=0.0
+
+[PASS        ] cube-on-table-in-goal-is-success  — Cube resting on the table inside the goal is success with maximum reward
+    obs: {"success": true, "reward": 1.0, "cube_z": 0.02, "tcp_to_push_pose": 0.2297}
+    ok   success eq True   actual=True
+    ok   reward gte 0.99   actual=1.0
+
+[PASS        ] cube-lifted-over-goal-is-not-success  — Cube held 12 cm above the goal is not success
+    obs: {"success": false, "reward": 0.0994, "cube_z": 0.12, "tcp_to_push_pose": 0.1742}
+    ok   success eq False   actual=False
+    ok   reward lte 0.99   actual=0.0994
+
+[FAIL        ] candidate-policy-pushes-cube-on-table  — The candidate PPO checkpoint pushes the cube into the goal on the table
+    obs: {"episodes": 64, "success_rate_at_end": 0.0, "success_rate_ever": 0.0, "mean_final_cube_z": 0.02, "mean_max_cube_z": 0.0201, "frac_cube_lifted_at_end": 0.0, "frac_over_goal_xy_at_end": 0.0, "frac_over_goal_but_lifted": 0.0}
+    FAIL success_rate_at_end gte 0.5   actual=0.0
+    ok   frac_over_goal_but_lifted lte 0.1   actual=0.0
+
+== 2. Approve every pending case (bound to content hash)
+approved lifting-cube-over-goal-loses-reward (45469457478deba4cddb758b117be8c5fce6b5df964be3fd2807f0490945d184)
+approved cube-on-table-in-goal-is-success (24d849537a9d978fbe344db74a480718fa4b1a01d43be4ff13345b08ed362801)
+approved cube-lifted-over-goal-is-not-success (751fdfd968dc49988388fac97a9d1346bf085556c06cf5920731a5cdf81548c8)
+approved candidate-policy-pushes-cube-on-table (4f262df944dbbe4d404abe81721fd1cc83a396bd396d07e81e2f8a1f252f436e)
+
+== 3. Gated check at the BUGGY commit 2563643f
+run 64e9489e  disposition=fail  state=completed  gating=True  error=None
+
+[FAIL        ] lifting-cube-over-goal-loses-reward  — Reward decreases as the cube is held higher over the goal (push pose reached)
+    obs: {"low": {"success": false, "reward": 0.6667, "cube_z": 0.0317, "tcp_to_push_pose": 0.0}, "high": {"success": false, "reward": 0.6667, "cube_z": 0.148, "tcp_to_push_pose": 0.0}, "reward_gap_low_minus_high": 0.0, "reward_depends_on_cube_height": false}
+    ok   low.tcp_to_push_pose lte 0.01   actual=0.0
+    ok   high.tcp_to_push_pose lte 0.01   actual=0.0
+    ok   low.success eq False   actual=False
+    ok   high.success eq False   actual=False
+    FAIL reward_depends_on_cube_height eq True   actual=False
+    FAIL reward_gap_low_minus_high gte 0.05   actual=0.0
+
+[PASS        ] cube-on-table-in-goal-is-success  — Cube resting on the table inside the goal is success with maximum reward
+    obs: {"success": true, "reward": 1.0, "cube_z": 0.02, "tcp_to_push_pose": 0.2297}
+    ok   success eq True   actual=True
+    ok   reward gte 0.99   actual=1.0
+
+[PASS        ] cube-lifted-over-goal-is-not-success  — Cube held 12 cm above the goal is not success
+    obs: {"success": false, "reward": 0.0994, "cube_z": 0.12, "tcp_to_push_pose": 0.1742}
+    ok   success eq False   actual=False
+    ok   reward lte 0.99   actual=0.0994
+
+[FAIL        ] candidate-policy-pushes-cube-on-table  — The candidate PPO checkpoint pushes the cube into the goal on the table
+    obs: {"episodes": 64, "success_rate_at_end": 0.0, "success_rate_ever": 0.0, "mean_final_cube_z": 0.02, "mean_max_cube_z": 0.0201, "frac_cube_lifted_at_end": 0.0, "frac_over_goal_xy_at_end": 0.0, "frac_over_goal_but_lifted": 0.0}
+    FAIL success_rate_at_end gte 0.5   actual=0.0
+    ok   frac_over_goal_but_lifted lte 0.1   actual=0.0
+exit code: 2
+
+== 4. Gated check at the FIXED commit dfdc881e (PR #1022)
+run f3e2cbbc  disposition=inconclusive  state=completed  gating=True  error=None
+
+[PASS        ] lifting-cube-over-goal-loses-reward  — Reward decreases as the cube is held higher over the goal (push pose reached)
+    obs: {"low": {"success": false, "reward": 0.7353, "cube_z": 0.0317, "tcp_to_push_pose": 0.0}, "high": {"success": false, "reward": 0.6088, "cube_z": 0.148, "tcp_to_push_pose": 0.0}, "reward_gap_low_minus_high": 0.1265, "reward_depends_on_cube_height": true}
+    ok   low.tcp_to_push_pose lte 0.01   actual=0.0
+    ok   high.tcp_to_push_pose lte 0.01   actual=0.0
+    ok   low.success eq False   actual=False
+    ok   high.success eq False   actual=False
+    ok   reward_depends_on_cube_height eq True   actual=True
+    ok   reward_gap_low_minus_high gte 0.05   actual=0.1265
+
+[PASS        ] cube-on-table-in-goal-is-success  — Cube resting on the table inside the goal is success with maximum reward
+    obs: {"success": true, "reward": 1.0, "cube_z": 0.02, "tcp_to_push_pose": 0.2297}
+    ok   success eq True   actual=True
+    ok   reward gte 0.99   actual=1.0
+
+[PASS        ] cube-lifted-over-goal-is-not-success  — Cube held 12 cm above the goal is not success
+    obs: {"success": false, "reward": 0.0745, "cube_z": 0.12, "tcp_to_push_pose": 0.1742}
+    ok   success eq False   actual=False
+    ok   reward lte 0.99   actual=0.0745
+
+[INCONCLUSIVE] candidate-policy-pushes-cube-on-table  — The candidate PPO checkpoint pushes the cube into the goal on the table
+    error: Adapter execution completed, exit 1; cleanup may be incomplete after forced termination.
+    stderr: or
+  File "/home/henry/ms-fixed/.venv/lib/python3.11/site-packages/stable_baselines3/common/save_util.py", line 264, in open_path_pathlib
+    return open_path(path.open("rb"), mode, verbose, suffix)
+                     ^^^^^^^^^^^^^^^
+  File "/home/henry/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/henry/ms-fixed/runs/candidate.zip.zip'
+
+
+exit code: 3

@@ -1,0 +1,28 @@
+{
+  "grader": "leaky",
+  "steps": 200,
+  "return": 2223.875,
+  "arrival_bonus": 1910.0,
+  "shaping_total": 158.281,
+  "stability_total": 160.726,
+  "crashed": false,
+  "on_ground_at_end": true,
+  "reached_goal": false,
+  "steps_at_goal": 0,
+  "min_dist_to_goal": 0.703,
+  "final_pos": [
+    -0.036,
+    0.058,
+    0.0
+  ],
+  "final_reported_pos": [
+    -0.036,
+    0.058,
+    0.0
+  ],
+  "goal": [
+    0.0,
+    0.0,
+    2.0
+  ]
+}

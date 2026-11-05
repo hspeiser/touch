@@ -1,0 +1,384 @@
+{
+  "id": "05257346-264d-4be8-9360-f7bd0b04f3e9",
+  "created_at": "2026-11-05T21:59:22.112442+00:00",
+  "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+  "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+  "worker_sha256": "f0c3f55eb4cfac7b0339a2385a2946721c2cbe34b1ec55bcb12de7a9a7d1747f",
+  "runtime": {
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.39"
+  },
+  "state": "completed",
+  "experimental": false,
+  "gating": true,
+  "disposition": "fail",
+  "results": [
+    {
+      "case_id": "lifting-cube-over-goal-loses-reward",
+      "title": "Reward decreases as the cube is held higher over the goal (push pose reached)",
+      "requirement_id": "reward-agrees-with-success",
+      "case_sha256": "45469457478deba4cddb758b117be8c5fce6b5df964be3fd2807f0490945d184",
+      "status": "fail",
+      "observations": {
+        "low": {
+          "success": false,
+          "reward": 0.6667,
+          "cube_z": 0.0317,
+          "tcp_to_push_pose": 0.0
+        },
+        "high": {
+          "success": false,
+          "reward": 0.6667,
+          "cube_z": 0.148,
+          "tcp_to_push_pose": 0.0
+        },
+        "reward_gap_low_minus_high": 0.0,
+        "reward_depends_on_cube_height": false,
+        "ms_root": "/home/henry/ms-buggy"
+      },
+      "assertions": [
+        {
+          "path": "low.tcp_to_push_pose",
+          "operator": "lte",
+          "expected": 0.01,
+          "actual": 0.0,
+          "passed": true
+        },
+        {
+          "path": "high.tcp_to_push_pose",
+          "operator": "lte",
+          "expected": 0.01,
+          "actual": 0.0,
+          "passed": true
+        },
+        {
+          "path": "low.success",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "high.success",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "reward_depends_on_cube_height",
+          "operator": "eq",
+          "expected": true,
+          "actual": false,
+          "passed": false
+        },
+        {
+          "path": "reward_gap_low_minus_high",
+          "operator": "gte",
+          "expected": 0.05,
+          "actual": 0.0,
+          "passed": false
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 3.1189064539994433,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "cube-on-table-in-goal-is-success",
+      "title": "Cube resting on the table inside the goal is success with maximum reward",
+      "requirement_id": "success-is-on-table",
+      "case_sha256": "24d849537a9d978fbe344db74a480718fa4b1a01d43be4ff13345b08ed362801",
+      "status": "pass",
+      "observations": {
+        "success": true,
+        "reward": 1.0,
+        "cube_z": 0.02,
+        "tcp_to_push_pose": 0.2297,
+        "ms_root": "/home/henry/ms-buggy"
+      },
+      "assertions": [
+        {
+          "path": "success",
+          "operator": "eq",
+          "expected": true,
+          "actual": true,
+          "passed": true
+        },
+        {
+          "path": "reward",
+          "operator": "gte",
+          "expected": 0.99,
+          "actual": 1.0,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 3.1199617559996113,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "cube-lifted-over-goal-is-not-success",
+      "title": "Cube held 12 cm above the goal is not success",
+      "requirement_id": "success-is-on-table",
+      "case_sha256": "751fdfd968dc49988388fac97a9d1346bf085556c06cf5920731a5cdf81548c8",
+      "status": "pass",
+      "observations": {
+        "success": false,
+        "reward": 0.0994,
+        "cube_z": 0.12,
+        "tcp_to_push_pose": 0.1742,
+        "ms_root": "/home/henry/ms-buggy"
+      },
+      "assertions": [
+        {
+          "path": "success",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "reward",
+          "operator": "lte",
+          "expected": 0.99,
+          "actual": 0.0994,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 3.2143456310004694,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "candidate-policy-pushes-cube-on-table",
+      "title": "The candidate PPO checkpoint pushes the cube into the goal on the table",
+      "requirement_id": "candidate-policy-pushes",
+      "case_sha256": "4f262df944dbbe4d404abe81721fd1cc83a396bd396d07e81e2f8a1f252f436e",
+      "status": "fail",
+      "observations": {
+        "episodes": 64,
+        "success_rate_at_end": 0.328,
+        "success_rate_ever": 0.344,
+        "mean_final_cube_z": 0.0205,
+        "mean_max_cube_z": 0.0233,
+        "frac_cube_lifted_at_end": 0.0,
+        "frac_over_goal_xy_at_end": 0.344,
+        "frac_over_goal_but_lifted": 0.0,
+        "ms_root": "/home/henry/ms-buggy"
+      },
+      "assertions": [
+        {
+          "path": "success_rate_at_end",
+          "operator": "gte",
+          "expected": 0.5,
+          "actual": 0.328,
+          "passed": false
+        },
+        {
+          "path": "frac_over_goal_but_lifted",
+          "operator": "lte",
+          "expected": 0.1,
+          "actual": 0.0,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 73.40217000399934,
+        "stderr": ""
+      }
+    }
+  ],
+  "suite": {
+    "schema_version": 1,
+    "name": "ManiSkill PushCube-v1 reward regression tests",
+    "adapter": "adapter.py",
+    "requirements": [
+      {
+        "id": "reward-agrees-with-success",
+        "text": "PushCube success requires the cube within goal_radius of the target AND still on the table. The dense reward must agree: with the gripper at the push pose and the cube over the goal, holding the cube higher above the table must earn strictly less reward."
+      },
+      {
+        "id": "success-is-on-table",
+        "text": "The success condition itself: a cube inside the goal radius on the table is success; the same cube lifted above the table is not."
+      },
+      {
+        "id": "candidate-policy-pushes",
+        "text": "A policy proposed for deployment must actually push the cube into the goal on the table, not hold it above the goal."
+      }
+    ],
+    "cases": [
+      {
+        "id": "lifting-cube-over-goal-loses-reward",
+        "title": "Reward decreases as the cube is held higher over the goal (push pose reached)",
+        "requirement_id": "reward-agrees-with-success",
+        "input": {
+          "scenario": "height_gradient",
+          "z_low": 0.035,
+          "z_high": 0.15
+        },
+        "assertions": [
+          {
+            "path": "low.tcp_to_push_pose",
+            "operator": "lte",
+            "expected": 0.01
+          },
+          {
+            "path": "high.tcp_to_push_pose",
+            "operator": "lte",
+            "expected": 0.01
+          },
+          {
+            "path": "low.success",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "high.success",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "reward_depends_on_cube_height",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "reward_gap_low_minus_high",
+            "operator": "gte",
+            "expected": 0.05
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Written from the PushCube docstring success condition; see ManiSkill issue #1016"
+        },
+        "case_sha256": "45469457478deba4cddb758b117be8c5fce6b5df964be3fd2807f0490945d184",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "45469457478deba4cddb758b117be8c5fce6b5df964be3fd2807f0490945d184",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:18.848325+00:00"
+        }
+      },
+      {
+        "id": "cube-on-table-in-goal-is-success",
+        "title": "Cube resting on the table inside the goal is success with maximum reward",
+        "requirement_id": "success-is-on-table",
+        "input": {
+          "scenario": "on_table_success"
+        },
+        "assertions": [
+          {
+            "path": "success",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "reward",
+            "operator": "gte",
+            "expected": 0.99
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Written from the PushCube docstring success condition"
+        },
+        "case_sha256": "24d849537a9d978fbe344db74a480718fa4b1a01d43be4ff13345b08ed362801",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "24d849537a9d978fbe344db74a480718fa4b1a01d43be4ff13345b08ed362801",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:19.001143+00:00"
+        }
+      },
+      {
+        "id": "cube-lifted-over-goal-is-not-success",
+        "title": "Cube held 12 cm above the goal is not success",
+        "requirement_id": "success-is-on-table",
+        "input": {
+          "scenario": "lifted_not_success",
+          "z": 0.12
+        },
+        "assertions": [
+          {
+            "path": "success",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "reward",
+            "operator": "lte",
+            "expected": 0.99
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Written from the PushCube docstring success condition"
+        },
+        "case_sha256": "751fdfd968dc49988388fac97a9d1346bf085556c06cf5920731a5cdf81548c8",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "751fdfd968dc49988388fac97a9d1346bf085556c06cf5920731a5cdf81548c8",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:19.135710+00:00"
+        }
+      },
+      {
+        "id": "candidate-policy-pushes-cube-on-table",
+        "title": "The candidate PPO checkpoint pushes the cube into the goal on the table",
+        "requirement_id": "candidate-policy-pushes",
+        "input": {
+          "scenario": "policy",
+          "checkpoint": "candidate.zip",
+          "episodes": 64,
+          "seed": 0
+        },
+        "assertions": [
+          {
+            "path": "success_rate_at_end",
+            "operator": "gte",
+            "expected": 0.5
+          },
+          {
+            "path": "frac_over_goal_but_lifted",
+            "operator": "lte",
+            "expected": 0.1
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored deployment gate"
+        },
+        "case_sha256": "4f262df944dbbe4d404abe81721fd1cc83a396bd396d07e81e2f8a1f252f436e",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "4f262df944dbbe4d404abe81721fd1cc83a396bd396d07e81e2f8a1f252f436e",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T21:15:19.267541+00:00"
+        }
+      }
+    ]
+  },
+  "adapter_source": "\"\"\"TouchStone adapter for ManiSkill PushCube-v1.\n\nMS_ROOT selects which ManiSkill checkout is under test (its .venv is used):\n    MS_ROOT=~/ms-buggy   commit 2563643f, the parent of the reward fix\n    MS_ROOT=~/ms-fixed   commit dfdc881e, PR #1022 \"Updated and more stable reward for PushCubeEnv\"\nPROBE_DIR points at the probe script (default: ../probe next to this suite's project).\n\"\"\"\n\nimport json\nimport os\nimport subprocess\nfrom pathlib import Path\n\nMS_ROOT = Path(os.environ[\"MS_ROOT\"]).expanduser()\nPROBE_DIR = Path(os.environ.get(\"PROBE_DIR\", Path.home() / \"maniskill-touchstone\" / \"probe\"))\nPYTHON = MS_ROOT / \".venv\" / \"bin\" / \"python\"\n\n\ndef setup(case):\n    return {}\n\n\ndef exercise(context, inputs):\n    completed = subprocess.run(\n        [str(PYTHON), str(PROBE_DIR / \"push_cube_probe.py\")],\n        input=json.dumps(inputs),\n        capture_output=True,\n        text=True,\n        cwd=MS_ROOT,\n        env={**os.environ, \"MS_ROOT\": str(MS_ROOT)},\n        timeout=280,\n    )\n    if completed.returncode != 0:\n        raise RuntimeError(f\"probe failed ({completed.returncode}): {completed.stderr[-4000:]}\")\n    context.update(json.loads(completed.stdout.strip().splitlines()[-1]))\n\n\ndef collect(context):\n    return context\n\n\ndef cleanup(context):\n    pass\n",
+  "error": null
+}

@@ -1,0 +1,17 @@
+reward=fixed device=cpu (cpu)
+/home/henry/drone-touchstone/.venv/lib/python3.12/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 1600, but because the `RolloutBuffer` is of size `n_steps * n_envs = 4000`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 800
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=400 and n_envs=10)
+  warnings.warn(
+trained 3,000,000 steps in 457s
+saved policies/ppo_fixed.zip
+
+ground-truth behaviour of the trained policy (20 episodes):
+  mean return              2097.81
+  mean arrival_bonus       1910.50
+  mean steps_at_goal        191.05
+  mean min_dist_to_goal       0.03
+  crashed            0/20
+  on ground at end   0/20
+  reached goal       20/20
+  example final pos  [0.026, 0.006, 2.001]

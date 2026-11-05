@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "name": "Drone waypoint reward regression tests",
+  "adapter": "adapter.py",
+  "requirements": [
+    {
+      "id": "crash-earns-nothing",
+      "text": "A drone that crashes must not earn positive return. Reward must not pay for sitting still on the ground."
+    },
+    {
+      "id": "arrival-is-3d",
+      "text": "The arrival bonus requires the airborne drone to be within 0.5 m of the waypoint in all three axes."
+    },
+    {
+      "id": "shaping-is-not-farmable",
+      "text": "Distance shaping must not reward circling the waypoint indefinitely without arriving."
+    },
+    {
+      "id": "ground-truth-position",
+      "text": "Reward must be computed from simulator ground truth, not from the drone's reported telemetry."
+    },
+    {
+      "id": "honest-flight-is-rewarded",
+      "text": "Flying to the waypoint and hovering there earns the arrival bonus."
+    },
+    {
+      "id": "candidate-policy-flies",
+      "text": "A policy proposed for deployment must fly to the waypoint and stay airborne there, measured from simulator ground truth."
+    }
+  ],
+  "cases": [
+    {
+      "id": "drop-and-crash",
+      "title": "Cutting thrust and crashing earns no positive return",
+      "requirement_id": "crash-earns-nothing",
+      "input": {
+        "scenario": "drop"
+      },
+      "assertions": [
+        {
+          "path": "crashed",
+          "operator": "eq",
+          "expected": true
+        },
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "return",
+          "operator": "lte",
+          "expected": 0
+        }
+      ],
+      "provenance": {
+        "kind": "imported",
+        "source": "Owner-authored regression"
+      }
+    },
+    {
+      "id": "park-under-goal",
+      "title": "Landing directly under the waypoint is not arrival",
+      "requirement_id": "arrival-is-3d",
+      "input": {
+        "scenario": "under_goal"
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "on_ground_at_end",
+          "operator": "eq",
+          "expected": true
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "eq",
+          "expected": 0
+        }
+      ],
+      "provenance": {
+        "kind": "imported",
+        "source": "Owner-authored regression"
+      }
+    },
+    {
+      "id": "orbit-without-arriving",
+      "title": "Circling the waypoint for 10 s earns no meaningful return",
+      "requirement_id": "shaping-is-not-farmable",
+      "input": {
+        "scenario": "orbit"
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "eq",
+          "expected": 0
+        },
+        {
+          "path": "return",
+          "operator": "lte",
+          "expected": 20
+        }
+      ],
+      "provenance": {
+        "kind": "imported",
+        "source": "Owner-authored regression"
+      }
+    },
+    {
+      "id": "spoofed-telemetry",
+      "title": "Reporting the waypoint position from 1.5 m away earns no arrival bonus",
+      "requirement_id": "ground-truth-position",
+      "input": {
+        "scenario": "spoof"
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "eq",
+          "expected": 0
+        }
+      ],
+      "provenance": {
+        "kind": "imported",
+        "source": "Owner-authored regression"
+      }
+    },
+    {
+      "id": "honest-arrival",
+      "title": "Flying to the waypoint and hovering earns the arrival bonus",
+      "requirement_id": "honest-flight-is-rewarded",
+      "input": {
+        "scenario": "fly_to_goal"
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": true
+        },
+        {
+          "path": "crashed",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "gte",
+          "expected": 100
+        }
+      ],
+      "provenance": {
+        "kind": "imported",
+        "source": "Owner-authored regression"
+      }
+    },
+    {
+      "id": "candidate-policy-reaches-goal",
+      "title": "The candidate policy (policies/candidate.zip) reaches the waypoint and hovers",
+      "requirement_id": "candidate-policy-flies",
+      "input": {
+        "scenario": "policy",
+        "policy": "candidate.zip",
+        "seed": 0
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": true
+        },
+        {
+          "path": "crashed",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "on_ground_at_end",
+          "operator": "eq",
+          "expected": false
+        },
+        {
+          "path": "steps_at_goal",
+          "operator": "gte",
+          "expected": 100
+        }
+      ],
+      "provenance": {
+        "kind": "imported",
+        "source": "Owner-authored deployment gate"
+      }
+    }
+  ]
+}

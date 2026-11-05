@@ -1,0 +1,666 @@
+{
+  "id": "57e03351-468f-4ff4-b67d-ec9efd9e2ddc",
+  "created_at": "2026-11-05T20:45:07.731122+00:00",
+  "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+  "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+  "worker_sha256": "f0c3f55eb4cfac7b0339a2385a2946721c2cbe34b1ec55bcb12de7a9a7d1747f",
+  "runtime": {
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.39"
+  },
+  "state": "completed",
+  "experimental": false,
+  "gating": true,
+  "disposition": "pass",
+  "results": [
+    {
+      "case_id": "drop-and-crash",
+      "title": "Cutting thrust and crashing earns no positive return",
+      "requirement_id": "crash-earns-nothing",
+      "case_sha256": "ee4716988320c829a161b22f4f5f7aae753b8468e80a448fd259620c27fbce3f",
+      "status": "pass",
+      "observations": {
+        "grader": "fixed",
+        "steps": 10,
+        "return": -55.464,
+        "arrival_bonus": 0.0,
+        "shaping_total": -6.0,
+        "stability_total": 0.536,
+        "crashed": true,
+        "on_ground_at_end": true,
+        "reached_goal": false,
+        "steps_at_goal": 0,
+        "min_dist_to_goal": 0.8,
+        "final_pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_reported_pos": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "goal": [
+          0.0,
+          0.0,
+          2.0
+        ]
+      },
+      "assertions": [
+        {
+          "path": "crashed",
+          "operator": "eq",
+          "expected": true,
+          "actual": true,
+          "passed": true
+        },
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "return",
+          "operator": "lte",
+          "expected": 0,
+          "actual": -55.464,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 0.11034202799964987,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "park-under-goal",
+      "title": "Landing directly under the waypoint is not arrival",
+      "requirement_id": "arrival-is-3d",
+      "case_sha256": "43466916a6b4076cfa4900cf77ebe3237866eb49a8116272daf70e394076947f",
+      "status": "pass",
+      "observations": {
+        "grader": "fixed",
+        "steps": 200,
+        "return": 21.992,
+        "arrival_bonus": 0.0,
+        "shaping_total": 1.726,
+        "stability_total": 21.627,
+        "crashed": false,
+        "on_ground_at_end": true,
+        "reached_goal": false,
+        "steps_at_goal": 0,
+        "min_dist_to_goal": 1.46,
+        "final_pos": [
+          -0.006,
+          -0.006,
+          0.0
+        ],
+        "final_reported_pos": [
+          -0.006,
+          -0.006,
+          0.0
+        ],
+        "goal": [
+          0.0,
+          0.0,
+          2.0
+        ]
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "on_ground_at_end",
+          "operator": "eq",
+          "expected": true,
+          "actual": true,
+          "passed": true
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "eq",
+          "expected": 0,
+          "actual": 0.0,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 0.11761186699914106,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "orbit-without-arriving",
+      "title": "Circling the waypoint for 10 s earns no meaningful return",
+      "requirement_id": "shaping-is-not-farmable",
+      "case_sha256": "b5ce9abb721044da9850daa9c10580c4f18b3100cd1e124b17f84969f05137a6",
+      "status": "pass",
+      "observations": {
+        "grader": "fixed",
+        "steps": 200,
+        "return": 1.322,
+        "arrival_bonus": 0.0,
+        "shaping_total": 0.756,
+        "stability_total": 5.318,
+        "crashed": false,
+        "on_ground_at_end": false,
+        "reached_goal": false,
+        "steps_at_goal": 0,
+        "min_dist_to_goal": 1.33,
+        "final_pos": [
+          -0.879,
+          1.023,
+          2.0
+        ],
+        "final_reported_pos": [
+          -0.879,
+          1.023,
+          2.0
+        ],
+        "goal": [
+          0.0,
+          0.0,
+          2.0
+        ]
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "eq",
+          "expected": 0,
+          "actual": 0.0,
+          "passed": true
+        },
+        {
+          "path": "return",
+          "operator": "lte",
+          "expected": 20,
+          "actual": 1.322,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 0.09584287899997435,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "spoofed-telemetry",
+      "title": "Reporting the waypoint position from 1.5 m away earns no arrival bonus",
+      "requirement_id": "ground-truth-position",
+      "case_sha256": "2ba662a7132603d7a3572485e9c51b67e082ba805ffaa28c40ecb25208f1464e",
+      "status": "pass",
+      "observations": {
+        "grader": "fixed",
+        "steps": 200,
+        "return": 169.425,
+        "arrival_bonus": 0.0,
+        "shaping_total": 4.226,
+        "stability_total": 169.541,
+        "crashed": false,
+        "on_ground_at_end": false,
+        "reached_goal": false,
+        "steps_at_goal": 0,
+        "min_dist_to_goal": 1.5,
+        "final_pos": [
+          1.5,
+          -0.0,
+          2.0
+        ],
+        "final_reported_pos": [
+          0.0,
+          -0.0,
+          2.0
+        ],
+        "goal": [
+          0.0,
+          0.0,
+          2.0
+        ]
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "eq",
+          "expected": 0,
+          "actual": 0.0,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 0.1245036619984603,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "honest-arrival",
+      "title": "Flying to the waypoint and hovering earns the arrival bonus",
+      "requirement_id": "honest-flight-is-rewarded",
+      "case_sha256": "b98c2717ea8d2ce5430e0f3570e38132b1dd8b90a4382b0c86cd63dd0f92cda8",
+      "status": "pass",
+      "observations": {
+        "grader": "fixed",
+        "steps": 200,
+        "return": 1943.752,
+        "arrival_bonus": 1770.0,
+        "shaping_total": 11.726,
+        "stability_total": 166.395,
+        "crashed": false,
+        "on_ground_at_end": false,
+        "reached_goal": true,
+        "steps_at_goal": 177,
+        "min_dist_to_goal": 0.0,
+        "final_pos": [
+          -0.0,
+          -0.0,
+          2.0
+        ],
+        "final_reported_pos": [
+          -0.0,
+          -0.0,
+          2.0
+        ],
+        "goal": [
+          0.0,
+          0.0,
+          2.0
+        ]
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": true,
+          "actual": true,
+          "passed": true
+        },
+        {
+          "path": "crashed",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "arrival_bonus",
+          "operator": "gte",
+          "expected": 100,
+          "actual": 1770.0,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 0.12683224600004905,
+        "stderr": ""
+      }
+    },
+    {
+      "case_id": "candidate-policy-reaches-goal",
+      "title": "The candidate policy (policies/candidate.zip) reaches the waypoint and hovers",
+      "requirement_id": "candidate-policy-flies",
+      "case_sha256": "f3917f720b1e8c423502ccb26cccd143e010e6f4337e7ecb09430610470c7e27",
+      "status": "pass",
+      "observations": {
+        "grader": "fixed",
+        "steps": 200,
+        "return": 2093.415,
+        "arrival_bonus": 1910.0,
+        "shaping_total": 11.755,
+        "stability_total": 177.299,
+        "crashed": false,
+        "on_ground_at_end": false,
+        "reached_goal": true,
+        "steps_at_goal": 191,
+        "min_dist_to_goal": 0.027,
+        "final_pos": [
+          0.026,
+          0.006,
+          2.001
+        ],
+        "final_reported_pos": [
+          0.026,
+          0.006,
+          2.001
+        ],
+        "goal": [
+          0.0,
+          0.0,
+          2.0
+        ]
+      },
+      "assertions": [
+        {
+          "path": "reached_goal",
+          "operator": "eq",
+          "expected": true,
+          "actual": true,
+          "passed": true
+        },
+        {
+          "path": "crashed",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "on_ground_at_end",
+          "operator": "eq",
+          "expected": false,
+          "actual": false,
+          "passed": true
+        },
+        {
+          "path": "steps_at_goal",
+          "operator": "gte",
+          "expected": 100,
+          "actual": 191,
+          "passed": true
+        }
+      ],
+      "error": null,
+      "execution": {
+        "status": "completed",
+        "code": 0,
+        "elapsed": 4.216390686000523,
+        "stderr": ""
+      }
+    }
+  ],
+  "suite": {
+    "schema_version": 1,
+    "name": "Drone waypoint reward regression tests",
+    "adapter": "adapter.py",
+    "requirements": [
+      {
+        "id": "crash-earns-nothing",
+        "text": "A drone that crashes must not earn positive return. Reward must not pay for sitting still on the ground."
+      },
+      {
+        "id": "arrival-is-3d",
+        "text": "The arrival bonus requires the airborne drone to be within 0.5 m of the waypoint in all three axes."
+      },
+      {
+        "id": "shaping-is-not-farmable",
+        "text": "Distance shaping must not reward circling the waypoint indefinitely without arriving."
+      },
+      {
+        "id": "ground-truth-position",
+        "text": "Reward must be computed from simulator ground truth, not from the drone's reported telemetry."
+      },
+      {
+        "id": "honest-flight-is-rewarded",
+        "text": "Flying to the waypoint and hovering there earns the arrival bonus."
+      },
+      {
+        "id": "candidate-policy-flies",
+        "text": "A policy proposed for deployment must fly to the waypoint and stay airborne there, measured from simulator ground truth."
+      }
+    ],
+    "cases": [
+      {
+        "id": "drop-and-crash",
+        "title": "Cutting thrust and crashing earns no positive return",
+        "requirement_id": "crash-earns-nothing",
+        "input": {
+          "scenario": "drop"
+        },
+        "assertions": [
+          {
+            "path": "crashed",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "return",
+            "operator": "lte",
+            "expected": 0
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "ee4716988320c829a161b22f4f5f7aae753b8468e80a448fd259620c27fbce3f",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "ee4716988320c829a161b22f4f5f7aae753b8468e80a448fd259620c27fbce3f",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.066612+00:00"
+        }
+      },
+      {
+        "id": "park-under-goal",
+        "title": "Landing directly under the waypoint is not arrival",
+        "requirement_id": "arrival-is-3d",
+        "input": {
+          "scenario": "under_goal"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "on_ground_at_end",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "eq",
+            "expected": 0
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "43466916a6b4076cfa4900cf77ebe3237866eb49a8116272daf70e394076947f",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "43466916a6b4076cfa4900cf77ebe3237866eb49a8116272daf70e394076947f",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.199750+00:00"
+        }
+      },
+      {
+        "id": "orbit-without-arriving",
+        "title": "Circling the waypoint for 10 s earns no meaningful return",
+        "requirement_id": "shaping-is-not-farmable",
+        "input": {
+          "scenario": "orbit"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "eq",
+            "expected": 0
+          },
+          {
+            "path": "return",
+            "operator": "lte",
+            "expected": 20
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "b5ce9abb721044da9850daa9c10580c4f18b3100cd1e124b17f84969f05137a6",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "b5ce9abb721044da9850daa9c10580c4f18b3100cd1e124b17f84969f05137a6",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.336392+00:00"
+        }
+      },
+      {
+        "id": "spoofed-telemetry",
+        "title": "Reporting the waypoint position from 1.5 m away earns no arrival bonus",
+        "requirement_id": "ground-truth-position",
+        "input": {
+          "scenario": "spoof"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "eq",
+            "expected": 0
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "2ba662a7132603d7a3572485e9c51b67e082ba805ffaa28c40ecb25208f1464e",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "2ba662a7132603d7a3572485e9c51b67e082ba805ffaa28c40ecb25208f1464e",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.464874+00:00"
+        }
+      },
+      {
+        "id": "honest-arrival",
+        "title": "Flying to the waypoint and hovering earns the arrival bonus",
+        "requirement_id": "honest-flight-is-rewarded",
+        "input": {
+          "scenario": "fly_to_goal"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "crashed",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "gte",
+            "expected": 100
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "b98c2717ea8d2ce5430e0f3570e38132b1dd8b90a4382b0c86cd63dd0f92cda8",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "b98c2717ea8d2ce5430e0f3570e38132b1dd8b90a4382b0c86cd63dd0f92cda8",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.594854+00:00"
+        }
+      },
+      {
+        "id": "candidate-policy-reaches-goal",
+        "title": "The candidate policy (policies/candidate.zip) reaches the waypoint and hovers",
+        "requirement_id": "candidate-policy-flies",
+        "input": {
+          "scenario": "policy",
+          "policy": "candidate.zip",
+          "seed": 0
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "crashed",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "on_ground_at_end",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "steps_at_goal",
+            "operator": "gte",
+            "expected": 100
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored deployment gate"
+        },
+        "case_sha256": "f3917f720b1e8c423502ccb26cccd143e010e6f4337e7ecb09430610470c7e27",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "f3917f720b1e8c423502ccb26cccd143e010e6f4337e7ecb09430610470c7e27",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:43:37.758916+00:00"
+        }
+      }
+    ]
+  },
+  "adapter_source": "\"\"\"TouchStone adapter for the drone waypoint environment.\n\nTouchStone copies this file to a temp dir and runs it under its own Python, so\nit shells out to the project's venv to fly the scenario. The case input is\npassed as JSON on stdin; the evidence JSON that comes back is the observation.\n\nDRONE_PROJECT  path to the drone-touchstone checkout (default ~/drone-touchstone)\nDRONE_REWARD   leaky | fixed, the reward function under test (default leaky)\n\"\"\"\n\nimport json\nimport os\nimport subprocess\nfrom pathlib import Path\n\nPROJECT = Path(os.environ.get(\"DRONE_PROJECT\", Path.home() / \"drone-touchstone\"))\nPYTHON = PROJECT / \".venv\" / \"bin\" / \"python\"\n\n\ndef setup(case):\n    return {}\n\n\ndef exercise(context, inputs):\n    completed = subprocess.run(\n        [str(PYTHON), \"-m\", \"drone_env.evaluate\"],\n        input=json.dumps(inputs),\n        capture_output=True,\n        text=True,\n        cwd=PROJECT,\n        timeout=120,\n    )\n    if completed.returncode != 0:\n        raise RuntimeError(f\"evaluate failed ({completed.returncode}): {completed.stderr[-4000:]}\")\n    context.update(json.loads(completed.stdout))\n\n\ndef collect(context):\n    # Ground-truth evidence from the simulator, never the reward's own verdict.\n    return context\n\n\ndef cleanup(context):\n    pass\n",
+  "error": null
+}

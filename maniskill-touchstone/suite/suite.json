@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "name": "ManiSkill PushCube-v1 reward regression tests",
+  "adapter": "adapter.py",
+  "requirements": [
+    {
+      "id": "reward-agrees-with-success",
+      "text": "PushCube success requires the cube within goal_radius of the target AND still on the table. The dense reward must agree: with the gripper at the push pose and the cube over the goal, holding the cube higher above the table must earn strictly less reward."
+    },
+    {
+      "id": "success-is-on-table",
+      "text": "The success condition itself: a cube inside the goal radius on the table is success; the same cube lifted above the table is not."
+    },
+    {
+      "id": "candidate-policy-pushes",
+      "text": "A policy proposed for deployment must actually push the cube into the goal on the table, not hold it above the goal."
+    }
+  ],
+  "cases": [
+    {
+      "id": "lifting-cube-over-goal-loses-reward",
+      "title": "Reward decreases as the cube is held higher over the goal (push pose reached)",
+      "requirement_id": "reward-agrees-with-success",
+      "input": {"scenario": "height_gradient", "z_low": 0.035, "z_high": 0.15},
+      "assertions": [
+        {"path": "low.tcp_to_push_pose", "operator": "lte", "expected": 0.01},
+        {"path": "high.tcp_to_push_pose", "operator": "lte", "expected": 0.01},
+        {"path": "low.success", "operator": "eq", "expected": false},
+        {"path": "high.success", "operator": "eq", "expected": false},
+        {"path": "reward_depends_on_cube_height", "operator": "eq", "expected": true},
+        {"path": "reward_gap_low_minus_high", "operator": "gte", "expected": 0.05}
+      ],
+      "provenance": {"kind": "imported", "source": "Written from the PushCube docstring success condition; see ManiSkill issue #1016"}
+    },
+    {
+      "id": "cube-on-table-in-goal-is-success",
+      "title": "Cube resting on the table inside the goal is success with maximum reward",
+      "requirement_id": "success-is-on-table",
+      "input": {"scenario": "on_table_success"},
+      "assertions": [
+        {"path": "success", "operator": "eq", "expected": true},
+        {"path": "reward", "operator": "gte", "expected": 0.99}
+      ],
+      "provenance": {"kind": "imported", "source": "Written from the PushCube docstring success condition"}
+    },
+    {
+      "id": "cube-lifted-over-goal-is-not-success",
+      "title": "Cube held 12 cm above the goal is not success",
+      "requirement_id": "success-is-on-table",
+      "input": {"scenario": "lifted_not_success", "z": 0.12},
+      "assertions": [
+        {"path": "success", "operator": "eq", "expected": false},
+        {"path": "reward", "operator": "lte", "expected": 0.99}
+      ],
+      "provenance": {"kind": "imported", "source": "Written from the PushCube docstring success condition"}
+    },
+    {
+      "id": "candidate-policy-pushes-cube-on-table",
+      "title": "The candidate PPO checkpoint pushes the cube into the goal on the table",
+      "requirement_id": "candidate-policy-pushes",
+      "input": {"scenario": "policy", "checkpoint": "candidate.zip", "episodes": 64, "seed": 0},
+      "assertions": [
+        {"path": "success_rate_at_end", "operator": "gte", "expected": 0.5},
+        {"path": "frac_over_goal_but_lifted", "operator": "lte", "expected": 0.1}
+      ],
+      "provenance": {"kind": "imported", "source": "Owner-authored deployment gate"}
+    }
+  ]
+}
