@@ -12,3 +12,11 @@ a CLI for deterministic, human-reviewed regression tests of RL reward functions.
 Each folder has its own README with results, caveats and reproduction steps. Training ran on a
 single RTX 5090 box under WSL2; ManiSkill training used CPU physics because PhysX GPU does not
 initialise there.
+
+## Versions
+
+Both demos were run on `touchstone-us` 0.1.2 and again on 0.1.3 (released 2026-11-06) with
+identical results; see `*/runs/demo_transcript_0.1.3.txt`. 0.1.3 adds `connect`,
+`disconnect`, `reporting-status` and `check --local-only`, so a connected suite uploads run
+summaries to a TouchStone control plane. Neither suite here was connected, so nothing was
+uploaded.
