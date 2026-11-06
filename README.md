@@ -20,3 +20,11 @@ identical results; see `*/runs/demo_transcript_0.1.3.txt`. 0.1.3 adds `connect`,
 `disconnect`, `reporting-status` and `check --local-only`, so a connected suite uploads run
 summaries to a TouchStone control plane. Neither suite here was connected, so nothing was
 uploaded.
+
+## Cloud reporting
+
+Both suites were connected to a TouchStone control plane with `touchstone connect` (0.1.3) and the
+demos rerun with summary-only reporting on (`*/runs/demo_transcript_connected.txt`). All eight
+runs appeared on the server's safety history endpoint within a second of finishing: six gating
+checks and two explores, dispositions matching the local transcripts. Only summaries went up;
+the API token is not stored in this repo.

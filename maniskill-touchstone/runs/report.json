@@ -176,6 +176,39 @@
   },
   "runs": [
     {
+      "id": "916ab058-4785-4142-859e-0fcff6dd9ec2",
+      "created_at": "2026-11-06T00:34:12.023883+00:00",
+      "disposition": "inconclusive",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": "No pending cases to explore."
+    },
+    {
+      "id": "1bee28f9-5fa7-4309-b9bd-872ef16007d4",
+      "created_at": "2026-11-06T00:19:38.703488+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": null
+    },
+    {
+      "id": "a08f2a37-e9dc-4e2e-9e5e-3c32e5a17b11",
+      "created_at": "2026-11-06T00:19:15.023103+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "dc6be39bb30f90da0adbb875f2c49919f6a2c3728cdeaff78ff2a56db6b714e4",
+      "adapter_sha256": "970c210ff459cbe4850b44e0fec953442fe1b8e3e7a63b91f3ed7edd607d3bab",
+      "error": null
+    },
+    {
       "id": "7e58faf0-e338-437a-af72-22e6bfb14949",
       "created_at": "2026-11-06T00:19:14.645559+00:00",
       "disposition": "inconclusive",

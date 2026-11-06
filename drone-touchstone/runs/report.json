@@ -258,6 +258,61 @@
   },
   "runs": [
     {
+      "id": "38294db8-027a-4749-86d6-5b9265aee034",
+      "created_at": "2026-11-06T00:34:12.022270+00:00",
+      "disposition": "inconclusive",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": "No pending cases to explore."
+    },
+    {
+      "id": "caa6541f-0378-4a84-8d23-a9872e42febc",
+      "created_at": "2026-11-06T00:19:25.600959+00:00",
+      "disposition": "pass",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "80532466-5026-4c13-866b-50ab8c8f7954",
+      "created_at": "2026-11-06T00:19:22.669320+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "ce1d8fff-cf4a-4bba-ad3e-b3b2d52a414d",
+      "created_at": "2026-11-06T00:19:19.536959+00:00",
+      "disposition": "pass",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "da6e2cdc-2e94-4a78-b878-72fd8aabb77b",
+      "created_at": "2026-11-06T00:19:14.994752+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
       "id": "bbcfcba7-0f28-4b45-8bf7-7881788af7f8",
       "created_at": "2026-11-06T00:19:14.645559+00:00",
       "disposition": "inconclusive",
