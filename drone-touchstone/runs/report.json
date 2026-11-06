@@ -1,0 +1,426 @@
+{
+  "suite": {
+    "schema_version": 1,
+    "name": "Drone waypoint reward regression tests",
+    "adapter": "adapter.py",
+    "requirements": [
+      {
+        "id": "crash-earns-nothing",
+        "text": "A drone that crashes must not earn positive return. Reward must not pay for sitting still on the ground."
+      },
+      {
+        "id": "arrival-is-3d",
+        "text": "The arrival bonus requires the airborne drone to be within 0.5 m of the waypoint in all three axes."
+      },
+      {
+        "id": "shaping-is-not-farmable",
+        "text": "Distance shaping must not reward circling the waypoint indefinitely without arriving."
+      },
+      {
+        "id": "ground-truth-position",
+        "text": "Reward must be computed from simulator ground truth, not from the drone's reported telemetry."
+      },
+      {
+        "id": "honest-flight-is-rewarded",
+        "text": "Flying to the waypoint and hovering there earns the arrival bonus."
+      },
+      {
+        "id": "candidate-policy-flies",
+        "text": "A policy proposed for deployment must fly to the waypoint and stay airborne there, measured from simulator ground truth."
+      }
+    ],
+    "cases": [
+      {
+        "id": "drop-and-crash",
+        "title": "Cutting thrust and crashing earns no positive return",
+        "requirement_id": "crash-earns-nothing",
+        "input": {
+          "scenario": "drop"
+        },
+        "assertions": [
+          {
+            "path": "crashed",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "return",
+            "operator": "lte",
+            "expected": 0
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "ee4716988320c829a161b22f4f5f7aae753b8468e80a448fd259620c27fbce3f",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "ee4716988320c829a161b22f4f5f7aae753b8468e80a448fd259620c27fbce3f",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.066612+00:00"
+        }
+      },
+      {
+        "id": "park-under-goal",
+        "title": "Landing directly under the waypoint is not arrival",
+        "requirement_id": "arrival-is-3d",
+        "input": {
+          "scenario": "under_goal"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "on_ground_at_end",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "eq",
+            "expected": 0
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "43466916a6b4076cfa4900cf77ebe3237866eb49a8116272daf70e394076947f",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "43466916a6b4076cfa4900cf77ebe3237866eb49a8116272daf70e394076947f",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.199750+00:00"
+        }
+      },
+      {
+        "id": "orbit-without-arriving",
+        "title": "Circling the waypoint for 10 s earns no meaningful return",
+        "requirement_id": "shaping-is-not-farmable",
+        "input": {
+          "scenario": "orbit"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "eq",
+            "expected": 0
+          },
+          {
+            "path": "return",
+            "operator": "lte",
+            "expected": 20
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "b5ce9abb721044da9850daa9c10580c4f18b3100cd1e124b17f84969f05137a6",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "b5ce9abb721044da9850daa9c10580c4f18b3100cd1e124b17f84969f05137a6",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.336392+00:00"
+        }
+      },
+      {
+        "id": "spoofed-telemetry",
+        "title": "Reporting the waypoint position from 1.5 m away earns no arrival bonus",
+        "requirement_id": "ground-truth-position",
+        "input": {
+          "scenario": "spoof"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "eq",
+            "expected": 0
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "2ba662a7132603d7a3572485e9c51b67e082ba805ffaa28c40ecb25208f1464e",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "2ba662a7132603d7a3572485e9c51b67e082ba805ffaa28c40ecb25208f1464e",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.464874+00:00"
+        }
+      },
+      {
+        "id": "honest-arrival",
+        "title": "Flying to the waypoint and hovering earns the arrival bonus",
+        "requirement_id": "honest-flight-is-rewarded",
+        "input": {
+          "scenario": "fly_to_goal"
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "crashed",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "arrival_bonus",
+            "operator": "gte",
+            "expected": 100
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored regression"
+        },
+        "case_sha256": "b98c2717ea8d2ce5430e0f3570e38132b1dd8b90a4382b0c86cd63dd0f92cda8",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "b98c2717ea8d2ce5430e0f3570e38132b1dd8b90a4382b0c86cd63dd0f92cda8",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:32:01.594854+00:00"
+        }
+      },
+      {
+        "id": "candidate-policy-reaches-goal",
+        "title": "The candidate policy (policies/candidate.zip) reaches the waypoint and hovers",
+        "requirement_id": "candidate-policy-flies",
+        "input": {
+          "scenario": "policy",
+          "policy": "candidate.zip",
+          "seed": 0
+        },
+        "assertions": [
+          {
+            "path": "reached_goal",
+            "operator": "eq",
+            "expected": true
+          },
+          {
+            "path": "crashed",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "on_ground_at_end",
+            "operator": "eq",
+            "expected": false
+          },
+          {
+            "path": "steps_at_goal",
+            "operator": "gte",
+            "expected": 100
+          }
+        ],
+        "provenance": {
+          "kind": "imported",
+          "source": "Owner-authored deployment gate"
+        },
+        "case_sha256": "f3917f720b1e8c423502ccb26cccd143e010e6f4337e7ecb09430610470c7e27",
+        "review_status": "approved",
+        "review": {
+          "case_sha256": "f3917f720b1e8c423502ccb26cccd143e010e6f4337e7ecb09430610470c7e27",
+          "decision": "approve",
+          "reviewer": "Henry Speiser",
+          "created_at": "2026-11-05T20:43:37.758916+00:00"
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "bcaa5528-8f51-44a0-a47a-127b0b2f4faa",
+      "created_at": "2026-11-06T00:07:55.883931+00:00",
+      "disposition": "inconclusive",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": "No pending cases to explore."
+    },
+    {
+      "id": "da7508cf-8a33-404d-90d1-9943c2c39ee7",
+      "created_at": "2026-11-05T20:45:17.804155+00:00",
+      "disposition": "pass",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "2ab83d97-5ba5-44c7-93c6-b4efe8a51d2a",
+      "created_at": "2026-11-05T20:45:12.741765+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "57e03351-468f-4ff4-b67d-ec9efd9e2ddc",
+      "created_at": "2026-11-05T20:45:07.731122+00:00",
+      "disposition": "pass",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "46575cc2-d5c4-4144-be7d-19171e9bd96d",
+      "created_at": "2026-11-05T20:45:03.285438+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "04fb5eff-d865-464d-bf63-7e505a5f99cd",
+      "created_at": "2026-11-05T20:45:02.994233+00:00",
+      "disposition": "inconclusive",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": "No pending cases to explore."
+    },
+    {
+      "id": "b4a743e7-6c70-433f-a3e8-8cf5044b7563",
+      "created_at": "2026-11-05T20:43:46.521194+00:00",
+      "disposition": "pass",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "806ea990-d72a-4cd9-9743-249e7990dacb",
+      "created_at": "2026-11-05T20:43:41.518195+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "5f06eb68-8369-41db-908f-ce022507f38f",
+      "created_at": "2026-11-05T20:43:39.685282+00:00",
+      "disposition": "inconclusive",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "780d0461-d491-4159-9da4-c50aee892b4c",
+      "created_at": "2026-11-05T20:43:37.895455+00:00",
+      "disposition": "inconclusive",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "128cf0b8-b9cf-4d6b-9798-5504556642d4",
+      "created_at": "2026-11-05T20:43:36.388578+00:00",
+      "disposition": "inconclusive",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "278ee366d0c66a7f6094ecc06aec0b144d3ca16645a16a5e3219cbccef601c66",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "8aa8850f-881a-492b-829a-73437bfe404e",
+      "created_at": "2026-11-05T20:32:02.491642+00:00",
+      "disposition": "pass",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "4a02b77ea30427c4f713ae720307599a444ec24559567fa1058b7f7e516410ad",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "8c598c0c-6ffd-47c9-b2b2-d1cbe0ddd746",
+      "created_at": "2026-11-05T20:32:01.719234+00:00",
+      "disposition": "fail",
+      "experimental": false,
+      "gating": true,
+      "state": "completed",
+      "suite_sha256": "4a02b77ea30427c4f713ae720307599a444ec24559567fa1058b7f7e516410ad",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "d50c00ce-1498-4e92-bd49-d6f2de75abe6",
+      "created_at": "2026-11-05T20:32:00.151671+00:00",
+      "disposition": "fail",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "503ce2eb3995c1e663735162f2db122e7fe9b605d0bea06cb72408b59f62edd9",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    },
+    {
+      "id": "9127a021-2791-40f8-85b2-1d8c5f740732",
+      "created_at": "2026-11-05T20:30:37.071937+00:00",
+      "disposition": "fail",
+      "experimental": true,
+      "gating": false,
+      "state": "completed",
+      "suite_sha256": "503ce2eb3995c1e663735162f2db122e7fe9b605d0bea06cb72408b59f62edd9",
+      "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
+      "error": null
+    }
+  ]
+}

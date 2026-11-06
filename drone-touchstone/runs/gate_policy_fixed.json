@@ -1,6 +1,6 @@
 {
-  "id": "da7508cf-8a33-404d-90d1-9943c2c39ee7",
-  "created_at": "2026-11-05T20:45:17.804155+00:00",
+  "id": "a2560754-0488-4b5d-a4ad-f380d24b1f34",
+  "created_at": "2026-11-06T00:08:08.749424+00:00",
   "suite_sha256": "b83c341118af449e6e04d18db7e392f37bf60849279225960f7419eb0616def5",
   "adapter_sha256": "24f36d1d2a443c3a8c3ee8d77341f23b5bd53a54a70b20868f423f4e785b450d",
   "worker_sha256": "f0c3f55eb4cfac7b0339a2385a2946721c2cbe34b1ec55bcb12de7a9a7d1747f",
@@ -74,7 +74,7 @@
       "execution": {
         "status": "completed",
         "code": 0,
-        "elapsed": 0.12328054000136035,
+        "elapsed": 0.18546193499787478,
         "stderr": ""
       }
     },
@@ -139,7 +139,7 @@
       "execution": {
         "status": "completed",
         "code": 0,
-        "elapsed": 0.09123048699984793,
+        "elapsed": 0.10962437800117186,
         "stderr": ""
       }
     },
@@ -204,7 +204,7 @@
       "execution": {
         "status": "completed",
         "code": 0,
-        "elapsed": 0.11543940299998212,
+        "elapsed": 0.09290209900063928,
         "stderr": ""
       }
     },
@@ -262,7 +262,7 @@
       "execution": {
         "status": "completed",
         "code": 0,
-        "elapsed": 0.10322360700047284,
+        "elapsed": 0.18793068699960713,
         "stderr": ""
       }
     },
@@ -327,7 +327,7 @@
       "execution": {
         "status": "completed",
         "code": 0,
-        "elapsed": 0.12649604599937447,
+        "elapsed": 0.1605511679990741,
         "stderr": ""
       }
     },
@@ -399,7 +399,7 @@
       "execution": {
         "status": "completed",
         "code": 0,
-        "elapsed": 4.048635294999258,
+        "elapsed": 3.6384594080009265,
         "stderr": ""
       }
     }
